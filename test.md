@@ -1,1 +1,1 @@
-Merge conflict simulation
+Merge conflict simulation - github server side
