@@ -27,6 +27,7 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
     - getting problems
     - storing solutions
     - retreiving scores
+    - external api call to https://www.qrtag.net/api/ for sharing solutions
 - DB/Login - Store users, problem ratings, and other problem-specific information in database. Register and login users. Credentials securely stored in database. Can't leaderboard unless logged in.
 - WebSocket - The number of thumbs up and down is updated in real time to all users.
 - React - Will create a SPA (lmao I could do it with raw html with a go backend using a htmx cdn but ok sure react time ig)
