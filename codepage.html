@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Sum</title>
+</head>
+
+<body>
+    <div>
+        <header>
+            <h1>l33t_code</h1>
+            <form class="login-form" action="/login" method="post">
+                <input type="text" name="login" placeholder="Login" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Log In">
+            </form>
+        </header>
+        <main>
+            <div>
+                <h1>Two Sum</h1>
+                <div>
+                    <span>Easy</span>
+                    <img src="images/thumbs-up.svg" width="16pt">
+                    <span>0</span>
+                    <img src="images/thumbs-down.svg" width="16pt">
+                    <span>0</span>
+                </div>
+                <p>
+                    Given an array of integers <code>nums</code> and an integer <code>target</code>, return
+                    <em>indices of the two numbers such that they add up to <code>target</code></em>.
+                </p>
+                <p>
+                    You may assume that each input would have <em>exactly one solution</em>, and you may not use the
+                    <em>same element twice</em>.
+                </p>
+                <p>You can return the answer in any order.</p>
+
+                <div>
+                    <h2>Example 1:</h2>
+                    <div style="background-color: #FAF9F6; padding: 15px;">
+                        <p>Input: nums = [2,7,11,15], target = 9</p>
+                        <p>Output: [0,1]</p>
+                        <p>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</p>
+                    </div>
+                    <h2>Example 2:</h2>
+                    <div style="background-color: #FAF9F6; padding: 15px;">
+                        <p>Input: nums = [3,2,4], target = 6</p>
+                        <p>Output: [1,2]</p>
+                    </div>
+                    <h2>Example 3:</h2>
+                    <div style="background-color: #FAF9F6; padding: 15px;">
+                        <p>Input: nums = [3,3], target = 6</p>
+                        <p>Output: [0,1]</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Constraints:</h2>
+                    <p>2 <= nums.length <=10<sup>4</sup></p>
+                    <p>-10<sup>9</sup>
+                        <= nums[i] <=10<sup>9</sup>
+                    </p>
+                    <p>-10<sup>9</sup>
+                        <= target <=10<sup>9</sup>
+                    </p>
+                    <p>Only one valid answer exists.</p>
+                </div>
+
+                <p>
+                    <em>Follow-up:</em> Can you come up with an algorithm that is less than
+                    <code>O(n<sup>2</sup>)</code> time complexity?
+                </p>
+
+                <div>
+                    <pre>
+                        <code>
+class Solution:
+def two_sum(self, nums, target):
+num_indices = {}
+for i, num in enumerate(nums):
+complement = target - num
+if complement in num_indices:
+return [num_indices[complement], i]
+num_indices[num] = i
+raise ValueError("No two sum solution")
+
+if __name__ == "__main__":
+num_test_cases = int(input("Enter the number of test cases: "))
+solution = Solution()
+for test_case in range(1, num_test_cases + 1):
+n = int(input("Enter the number of elements in the array: "))
+nums = list(map(int, input("Enter the array elements separated by space: ").split()))
+target = int(input("Enter the target sum: "))
+result = solution.two_sum(nums, target)
+print(f"Case #{test_case}: {result}")
+
+                        </code>
+                    </pre>
+                </div>
+                <div>
+                    <button>Submit</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
