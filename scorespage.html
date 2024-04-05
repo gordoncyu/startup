@@ -2,56 +2,56 @@
 <html>
 
 <head>
-    <title>1337code</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Sum Leaderboard</title>
 </head>
 
-<body>
-    <div>
-        <header>
+<body class="bg-black text-white font-sans min-h-screen">
+    <div class="container mx-auto px-4">
+        <header class="flex justify-between items-center py-6 border-b border-gray-700">
             <span style="display: flex; justify-content: space-between; align-items: center;">
                 <h1 class="text-3xl font-bold"><a href="index.html">1337code</a></h1>
                 <img src="./images/1337codelogo.png" style="width: 60px; vertical-align: middle;">
             </span>
+            <p style="display: flex; justify-content: space-between">logged in: the_gourd&nbsp;&nbsp;
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" alt="NeoVim" class="w-5 h-5 inline-block align-middle">
+                        </p>
             <form class="login-form" action="/login" method="post">
-                <input type="text" name="login" placeholder="Login" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="submit" value="Log In">
+                <input type="text" name="username" placeholder="username" required class="rounded bg-gray-950 m-2">
+                <input type="password" name="password" placeholder="password" required class="rounded bg-gray-950 m-2">
+                <input type="submit" value="log in">
             </form>
-            <p>logged in: the_gourd <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" width="12>"</p>
-            <hr style="height: 10px; background-color: darkgray">
         </header>
-        <main>
-            <section class="mb-6">
-                <nav class="flex space-x-2 overflow-x-auto"></nav>
-            </section>
-            <section class="grid">
-                <div class="col-span-2">
-                    <form action="codepage.html">
-                        <input type="submit" value="<-- Back" />
-                    </form>
-                    <h2 class="text-2xl font-bold mb-4">Two Sum Leaderboard</h2>
-                    <hr>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>running time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>The_Gourd</td>
-                                <td>.00000000001µs</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+        <main class="border-b border-gray-700">
+            <div class="flex flex-col p-8">
+                <section class="grid">
+                    <div class="col-span-2 mb-4">
+                        <form action="codepage.html" class="mb-2">
+                            <input type="submit" value="<-- Back"
+                                class="button bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" />
+                        </form>
+                        <h2 class="text-2xl font-bold mb-4">Two Sum Leaderboard</h2>
+                        <div class="content-box bg-[#1e1e1e] p-4 rounded-md">
+                            <div class="flex justify-between mb-4">
+                                <div class="font-bold text-xl">Name</div>
+                                <div class="font-bold text-xl">Lines of Code</div>
+                                <div class="font-bold text-xl">Running Time</div>
+                            </div>
+                            <div class="flex justify-between m-4">
+                                <p>the_gourd</p>
+                                <p>1</p>
+                                <p>4.4e17 Seconds</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
         <footer>
-            <hr>
             <h1><a href="https://github.com/gordoncyu/startup">1337code src</a></h1>
         </footer>
+        <script src="https://cdn.tailwindcss.com"></script>
     </div>
 </body>
 
