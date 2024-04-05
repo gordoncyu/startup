@@ -27,6 +27,9 @@
                     <img src="images/thumbs-down.svg" width="16pt">
                     <span>0</span>
                 </div>
+                <form action="scorespage.html">
+                    <input type="submit" value="scores" />
+                </form>
                 <p>
                     Given an array of integers <code>nums</code> and an integer <code>target</code>, return
                     <em>indices of the two numbers such that they add up to <code>target</code></em>.
@@ -77,24 +80,24 @@
                     <pre>
                         <code>
 class Solution:
-def two_sum(self, nums, target):
-num_indices = {}
-for i, num in enumerate(nums):
-complement = target - num
-if complement in num_indices:
-return [num_indices[complement], i]
-num_indices[num] = i
-raise ValueError("No two sum solution")
+    def two_sum(self, nums, target):
+        num_indices = {}
+        for i, num in enumerate(nums):
+            complement = target - num
+            if complement in num_indices:
+                return [num_indices[complement], i]
+            num_indices[num] = i
+        raise ValueError("No two sum solution")
 
 if __name__ == "__main__":
-num_test_cases = int(input("Enter the number of test cases: "))
-solution = Solution()
-for test_case in range(1, num_test_cases + 1):
-n = int(input("Enter the number of elements in the array: "))
-nums = list(map(int, input("Enter the array elements separated by space: ").split()))
-target = int(input("Enter the target sum: "))
-result = solution.two_sum(nums, target)
-print(f"Case #{test_case}: {result}")
+    num_test_cases = int(input("Enter the number of test cases: "))
+    solution = Solution()
+    for test_case in range(1, num_test_cases + 1):
+        n = int(input("Enter the number of elements in the array: "))
+        nums = list(map(int, input("Enter the array elements separated by space: ").split()))
+        target = int(input("Enter the target sum: "))
+        result = solution.two_sum(nums, target)
+        print(f"Case #{test_case}: {result}")
 
                         </code>
                     </pre>
