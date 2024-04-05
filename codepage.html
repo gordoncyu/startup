@@ -7,32 +7,35 @@
     <title>Two Sum</title>
 </head>
 
-<body>
-    <div>
-        <header>
+<body class="bg-black text-white font-sans min-h-screen">
+    <div class="container mx-auto px-4">
+        <header class="flex justify-between items-center py-6 border-b border-gray-700">
             <span style="display: flex; justify-content: space-between; align-items: center;">
                 <h1 class="text-3xl font-bold"><a href="index.html">1337code</a></h1>
                 <img src="./images/1337codelogo.png" style="width: 60px; vertical-align: middle;">
             </span>
+            <p style="display: flex; justify-content: space-between">logged in: the_gourd&nbsp;&nbsp;
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" alt="NeoVim" class="w-5 h-5 inline-block align-middle">
+                        </p>
             <form class="login-form" action="/login" method="post">
-                <input type="text" name="login" placeholder="Login" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <input type="submit" value="Log In">
+                <input type="text" name="username" placeholder="username" required class="rounded bg-gray-950 m-2">
+                <input type="password" name="password" placeholder="password" required class="rounded bg-gray-950 m-2">
+                <input type="submit" value="log in">
             </form>
-            <p>logged in: the_gourd <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" width="12>"</p>
         </header>
-        <main>
-            <div>
-                <h1>Two Sum</h1>
-                <div>
-                    <span>Easy</span>
-                    <img src="images/thumbs-up.svg" width="16pt">
+        <main class="border-b border-gray-700">
+            <div class="flex flex-col p-8">
+                <div class="flex items-center space-x-2 mb-4">
+                    <span
+                        class="inline-block px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Easy</span>
+                    <img src="images/thumbs-up.png" width="16pt">
                     <span>0</span>
-                    <img src="images/thumbs-down.svg" width="16pt">
+                    <img src="images/thumbs-down.png" width="16pt">
                     <span>0</span>
                 </div>
-                <form action="scorespage.html">
-                    <input type="submit" value="scores" />
+                <form action="scorespage.html" class="mb-2">
+                    <input type="submit" value="Leaderboard"
+                    class="button bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" />
                 </form>
                 <p>
                     Given an array of integers <code>nums</code> and an integer <code>target</code>, return
@@ -46,18 +49,18 @@
 
                 <div>
                     <h2>Example 1:</h2>
-                    <div style="background-color: #FAF9F6; padding: 15px;">
+                    <div style="background-color: #1e1e1e" class="p-4 rounded-md">
                         <p>Input: nums = [2,7,11,15], target = 9</p>
                         <p>Output: [0,1]</p>
                         <p>Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</p>
                     </div>
                     <h2>Example 2:</h2>
-                    <div style="background-color: #FAF9F6; padding: 15px;">
+                    <div style="background-color: #1e1e1e" class="p-4 rounded-md">
                         <p>Input: nums = [3,2,4], target = 6</p>
                         <p>Output: [1,2]</p>
                     </div>
                     <h2>Example 3:</h2>
-                    <div style="background-color: #FAF9F6; padding: 15px;">
+                    <div style="background-color: #1e1e1e" class="p-4 rounded-md">
                         <p>Input: nums = [3,3], target = 6</p>
                         <p>Output: [0,1]</p>
                     </div>
@@ -81,11 +84,14 @@
                 </p>
 
                 <div>
-                    <p>Forgive us for our web code editor is lacking. We recommend you write your code in 
-                    <a href="https://neovim.io/">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" width="14pt">
-                        eovim</p>
+                    <p class="flex items-center">
+                    Forgive us for our web code editor is lacking. We recommend you write your code in &nbsp
+                    <a href="https://neovim.io/" class="inline-flex items-center text-blue-500">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" alt="NeoVim" class="w-3.5 h-3.5 inline-block align-middle">
+                        eoVim
                     </a>
+                    </p>
+
                     <pre>
                         <code>
 class Solution:
@@ -115,14 +121,14 @@ if __name__ == "__main__":
                     <button>Submit</button>
                 </div>
             </div>
-            <div>
-                <button>Share your solution with a QR code</button>
+            <div class="m-2">
+                <button class="text-blue-500">Share your solution with a QR code</button>
             </div>
         </main>
         <footer>
-            <hr>
-            <h1><a href="https://github.com/gordoncyu/startup">1337code src</a></h1>
+            <h1><a href="https://github.com/gordoncyu/startup" class="text-blue-500">1337code src</a></h1>
         </footer>
+        <script src="https://cdn.tailwindcss.com"></script>
     </div>
 </body>
 
