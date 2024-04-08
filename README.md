@@ -43,3 +43,18 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
 - login placeholder in page header
 - db placeholder for leaderboard
 - websocket placeholder for real-time thumbs up/down counter
+
+# Startup CSS Stuff done
+
+(All using tailwind)
+- Standardized header and footer content and css across pages (will be SPA'd later)
+    - Styleized logo and login
+- Styled navigation between pages to be more clear about their purpose (not an explicit navigation bar, but clear and natural nav between different parts of the application)
+    - Big blue button for leaderboard and back from leaderboard
+- Used a lot of tailwind flexbox features to ensure responsive styling
+- Stylized tables by replacing with flexbox columns instead
+- Added darktheme; there is only darktheme; this is a feature because 1337 python hackers only use darktheme
+    - Darkthemed codepage instructions and other elements
+- Text content; mostly the same as before; styled with darktheme
+- Same images just layed out better with css
+
