@@ -12,6 +12,15 @@ app.listen(4000);
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+function requireHtmx(req, res, next) {
+    if (req.get('HX-Request') !== 'true') {
+        return res.status(403).send('HTMX request required.');
+    }
+    next();
+}
+
+app.use('/comp', requireHtmx);
     
 app.get('/index.html', async (req, res, next) => {
     const auth = req.cookies?.auth
@@ -33,10 +42,6 @@ app.get('/problems/:problemName', async (req, res, next) => {
 });
 
 app.get('/comp/problems/:problemName', async (req, res, next) => {
-    if (req.get('HX-Request') !== 'true') {
-        return res.status(400).send(REQUIRES_HTMX_STRING);
-    }
-
     let problem = await DB.getProblem(req.params.problemName)
     if (problem == null) {
         res.render('404')
@@ -47,11 +52,7 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
 });
 
 const REQUIRES_HTMX_STRING = 'Bad Request: This endpoint requires an HTMX request.'
-app.post('/register', async (req, res, next) => {
-    if (req.get('HX-Request') !== 'true') {
-        return res.status(400).send(REQUIRES_HTMX_STRING);
-    }
-
+app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {
         const user = DB.createUser(username, password)
@@ -68,11 +69,7 @@ app.post('/register', async (req, res, next) => {
     }
 })
 
-app.post('/login', async (req, res, next) => {
-    if (req.get('HX-Request') !== 'true') {
-        return res.status(400).send(REQUIRES_HTMX_STRING);
-    }
-
+app.post('/comp/login', async (req, res, next) => {
     const { username, password } = req.body;
     const user = DB.getUser(username)
     if (user === null  || user.password !== bcrypt.hash(password, 31)) {

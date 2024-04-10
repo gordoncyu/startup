@@ -2,9 +2,9 @@
     <input type="text" name="username" placeholder="username" required class="rounded bg-gray-950 m-2">
     <input type="password" name="password" placeholder="password" required class="rounded bg-gray-950 m-2">
 
-    <input type="submit" value="Log in" hx-post="/login" hx-trigger="click">
+    <input type="submit" value="Log in" hx-post="/comp/login" hx-trigger="click">
 
-    <input type="button" value="Register" hx-post="/register" hx-trigger="click">
+    <input type="button" value="Register" hx-post="/comp/register" hx-trigger="click">
     <% if (locals.error != undefined) { %>
         <p class="text-red"> <%= error %> </p>
     <% } %>
