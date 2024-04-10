@@ -10,7 +10,11 @@
 <body class="bg-black text-white font-sans min-h-screen">
     <div class="container mx-auto px-4">
         <% include partials/header, {username: username} %>
-        <% include partials/${contentPartial} %>
+        <% if (locals.contentParams == undefined) { %>
+            <% include partials/${contentPartial} %>
+        <% } else { %>
+            <% include partials/${contentPartial}, {contentParams: contentParams} %>
+        <% } %>
         <% include partials/footer %>
     </div>
     <script src="https://cdn.tailwindcss.com"></script>

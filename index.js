@@ -14,7 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/index.html', async (req, res, next) => {
     const auth = req.cookies?.auth
     const username = auth == undefined ? null : await DB.getUserByAuth(auth).username
-    res.render('spa', { contentPartial: "problems", username: username })
+    const problems = DB.getProblems()
+    res.render('spa', { contentPartial: "problems", contentParams: problems, username: username })
 });
 
 const REQUIRES_HTMX_STRING = 'Bad Request: This endpoint requires an HTMX request.'
