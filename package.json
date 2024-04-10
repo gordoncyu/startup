@@ -1,0 +1,27 @@
+{
+  "name": "1337code",
+  "version": "0.0.1",
+  "description": "leetcode clone for BYU cs260",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gordoncyu/startup"
+  },
+  "keywords": [
+    "leetcode"
+  ],
+  "author": "Gordon Yu",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "dedent": "^1.5.1",
+    "express": "^4.19.2",
+    "marked": "^12.0.1",
+    "mongodb": "^6.5.0",
+    "uuid": "^9.0.1"
+  }
+}
