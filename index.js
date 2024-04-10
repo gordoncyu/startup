@@ -51,6 +51,32 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
     res.render('problem', { problem: problem })
 });
 
+app.get('/problems/:problemName/leaderboard', async (req, res, next) => {
+    const auth = req.cookies?.auth
+    const username = auth == undefined ? null : await DB.getUserByAuth(auth).username
+    let problem = await DB.getProblem(req.params.problemName)
+    if (problem == null) {
+        res.render('spa', { contentPartial: "404", username: username })
+        return
+    }
+    const scores = await DB.getHighScores(req.params.problemName)
+    res.render('spa', {
+        contentPartial: "leaderboard",
+        contentParams: {problemName: req.params.problemName, scores: scores},
+        username: username 
+    })
+});
+
+app.get('/comp/problems/:problemName/leaderboard', async (req, res, next) => {
+    let problem = await DB.getProblem(req.params.problemName)
+    if (problem == null) {
+        res.render('404')
+        return
+    }
+    const scores = await DB.getHighScores(req.params.problemName)
+    res.render('leaderboard', {problemName: req.params.problemName, scores: scores})
+});
+
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {

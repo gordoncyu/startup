@@ -108,14 +108,20 @@ async function getProblems(getDescription = false) {
 }
 
 
-function addScore(score) {
+function addScore(problemName, username, loc, time) {
+    score = {
+        problemName: problemName,
+        username: username,
+        loc: loc,
+        time: time,
+    }
     scoreCollection.insertOne(score);
 }
 
-function getHighScores() {
-    return scoreCollection.find({}, {
-        sort: { score: -1 },
-        limit: 10,
+function getHighScores(problemName) {
+    return scoreCollection.find({ "problemName": problemName }, {
+        sort: { 'time': -1 },
+        limit: 100
     }).toArray();
 }
 
