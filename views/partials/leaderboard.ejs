@@ -1,0 +1,27 @@
+<main class="border-b border-gray-700">
+    <div class="flex flex-col p-8">
+        <section class="grid">
+            <div class="col-span-2 mb-4">
+                <form hx-get="/comp/problems/<%= encodeURIComponent(problemName) %>" class="mb-2">
+                    <input type="submit" value="<-- Back"
+                        class="button bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" />
+                </form>
+                <h1 class="text-2xl font-bold mb-4"><%= problemName %> Leaderboard</h2>
+                <div class="content-box bg-[#1e1e1e] p-4 rounded-md">
+                    <div class="flex justify-between mb-4">
+                        <div class="font-bold text-xl">Name</div>
+                        <div class="font-bold text-xl">Lines of Code</div>
+                        <div class="font-bold text-xl">Running Time</div>
+                    </div>
+                    <% for(let score of scores) { %>
+                        <div class="flex justify-between m-4">
+                            <p><%= score.username %></p>
+                            <p><%= score.loc %></p>
+                            <p><%= score.time %></p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
