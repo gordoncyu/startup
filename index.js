@@ -2,11 +2,13 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const app = express();
-const dedent = require('dedent')
+const marked = require('marked');
+const markedRenderer = require('./markedRenderer.js')
+marked.setOptions({markedRenderer})
 
 const DB = require('./database.js')
 
-app.listen(8080);
+app.listen(4000);
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -15,7 +17,33 @@ app.get('/index.html', async (req, res, next) => {
     const auth = req.cookies?.auth
     const username = auth == undefined ? null : await DB.getUserByAuth(auth).username
     const problems = DB.getProblems()
-    res.render('spa', { contentPartial: "problems", contentParams: problems, username: username })
+    res.render('spa', { contentPartial: "problems", contentParams: {problems: problems}, username: username })
+});
+
+app.get('/problems/:problemName', async (req, res, next) => {
+    const auth = req.cookies?.auth
+    const username = auth == undefined ? null : await DB.getUserByAuth(auth).username
+    let problem = await DB.getProblem(req.params.problemName)
+    if (problem == null) {
+        res.render('spa', { contentPartial: "404", username: username })
+        return
+    }
+    problem.description = marked(problem.description)
+    res.render('spa', { contentPartial: "problem", contentParams: {problem: problem}, username: username })
+});
+
+app.get('/comp/problems/:problemName', async (req, res, next) => {
+    if (req.get('HX-Request') !== 'true') {
+        return res.status(400).send(REQUIRES_HTMX_STRING);
+    }
+
+    let problem = await DB.getProblem(req.params.problemName)
+    if (problem == null) {
+        res.render('404')
+        return
+    }
+    problem.description = marked(problem.description)
+    res.render('problem', { problem: problem })
 });
 
 const REQUIRES_HTMX_STRING = 'Bad Request: This endpoint requires an HTMX request.'

@@ -13,7 +13,7 @@
         <% if (locals.contentParams == undefined) { %>
             <% include partials/${contentPartial} %>
         <% } else { %>
-            <% include partials/${contentPartial}, {contentParams: contentParams} %>
+            <% include partials/${contentPartial}, {...contentParams} %>
         <% } %>
         <% include partials/footer %>
     </div>

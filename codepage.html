@@ -83,7 +83,7 @@
                     <code>O(n<sup>2</sup>)</code> time complexity?
                 </p>
 
-                <div>
+                <div class="mt-10">
                     <p class="flex items-center">
                     Forgive us for our web code editor is lacking. We recommend you write your code in &nbsp
                     <a href="https://neovim.io/" class="inline-flex items-center text-blue-500">
@@ -93,7 +93,7 @@
                     </p>
 
                     <pre>
-                        <code>
+                        <textarea id="editor" class="hidden">
 class Solution:
     def two_sum(self, nums, target):
         num_indices = {}
@@ -114,11 +114,11 @@ if __name__ == "__main__":
         result = solution.two_sum(nums, target)
         print(f"Case #{test_case}: {result}")
 
-                        </code>
+                        </textarea>
                     </pre>
                 </div>
                 <div>
-                    <button>Submit</button>
+                    <button id="submitCode">Submit</button>
                 </div>
             </div>
             <div class="m-2">
@@ -129,6 +129,12 @@ if __name__ == "__main__":
             <h1><a href="https://github.com/gordoncyu/startup" class="text-blue-500">1337code src</a></h1>
         </footer>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/ayu-dark.min.css">
+        <script src="codepage.js"></script>
     </div>
 </body>
 

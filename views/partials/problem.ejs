@@ -1,0 +1,53 @@
+<main class="border-b border-gray-700">
+    <div class="flex flex-col p-8">
+        <div class="flex items-center space-x-2 mb-4">
+            <span
+                class="inline-block px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Easy</span>
+            <img src="images/thumbs-up.png" width="16pt">
+            <span>0</span>
+            <img src="images/thumbs-down.png" width="16pt">
+            <span>0</span>
+        </div>
+        <form hx-get="/comp/problems/<%= encodeURIComponent(problem.name) %>/leaderboard" hx-target="main" hx-swap="outerHTML">
+            <input type="submit" value="Leaderboard"
+            class="button bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" />
+        </form>
+        <h1 class="text-3xl font-bold"><%= problem.name %></h1>
+        <%= problem.description %>
+        <div class="mt-10">
+            <p class="flex items-center">
+            Forgive us for our web code editor is lacking. We recommend you write your code in &nbsp
+            <a href="https://neovim.io/" class="inline-flex items-center text-blue-500">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" alt="NeoVim" class="w-3.5 h-3.5 inline-block align-middle">
+                eoVim
+            </a>
+            </p>
+
+            <pre>
+                <textarea id="editor" class="hidden">
+import sys
+                </textarea>
+            </pre>
+        </div>
+        <div>
+            <button id="submitCode">Submit</button>
+        </div>
+    </div>
+    <div class="m-2">
+        <button class="text-blue-500">Share your solution with a QR code</button>
+    </div>
+    <script>
+        async function main() {
+            let pyodide = await loadPyodide();
+
+            const textarea = document.getElementById('editor')
+            const editor = CodeMirror.fromTextArea(textarea, {
+                    mode: 'text/x-python',
+                    lineNumbers: true,
+                    theme: 'ayu-dark'
+                });
+            textarea.classList.remove("hidden")
+        };
+        main();
+    </script>
+</main>
