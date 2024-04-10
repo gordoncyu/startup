@@ -51,7 +51,6 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
     res.render('problem', { problem: problem })
 });
 
-const REQUIRES_HTMX_STRING = 'Bad Request: This endpoint requires an HTMX request.'
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {
@@ -82,10 +81,9 @@ app.post('/comp/login', async (req, res, next) => {
 })
 
 function setAuthCookie(res, auth) {
-  res.cookie('auth', auth, {
-    secure: true,
-    httpOnly: true,
-    sameSite: 'strict',
-  });
+    res.cookie('auth', auth, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
+    });
 }
-
