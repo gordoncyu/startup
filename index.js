@@ -9,6 +9,8 @@ marked.setOptions({markedRenderer})
 const DB = require('./database.js')
 
 app.listen(4000);
+app.use(express.static('public'))
+app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
