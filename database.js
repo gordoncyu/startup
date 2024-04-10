@@ -10,6 +10,7 @@ const db = client.db('1337code');
 
 const userCollection = db.collection("users")
 const problemCollection = db.collection("problems")
+const scoreCollection = db.collection("scores")
 
 (async function testConnection() {
     await client.connect();
@@ -43,12 +44,12 @@ async function insertIfNotExists(collection, documents) {
 
 function getUser(username) {
     const user = userCollection.findOne({ _id: username })
-    return restructureUser(user)
+    return idToName(user)
 }
 
 function getUserByAuth(auth) {
     const user = userCollection.findOne({ auth: auth })
-    return restructureUser(user)
+    return idToName(user)
 }
 
 async function createUser(username, password) {
@@ -57,11 +58,12 @@ async function createUser(username, password) {
         password: await bcrypt.hash(password, 31),
         auth: uuid.v4(),
     })
-    return restructureUser(user)
+    return idToName(user)
 }
 
 function getProblem(id) {
-    return userCollection.findOne({ _id: id })
+    const problem = userCollection.findOne({ _id: id })
+    return idToName(problem)
 }
 
 async function getProblems(getDescription = false) {
@@ -69,7 +71,7 @@ async function getProblems(getDescription = false) {
     if (getDescription == false) {
         problems = problems.map(({description, ...rest}) => rest);
     }
-    return problems
+    return problems.map(idToName)
 }
 
 
@@ -84,9 +86,11 @@ function getHighScores() {
     }).toArray();
 }
 
-function restructureUser(user) {
-    if (user === null) return null;
-    return {_id:username, ...rest} = user
+function idToName(document) {
+    if (document === null) {
+        return null
+    };
+    return {_id:username, ...rest} = document
 }
 
 module.exports = {
