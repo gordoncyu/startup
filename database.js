@@ -5,40 +5,73 @@ const uuid = require('uuid');
 const secrets = require('./.secrets.json').mongodb;
 const url = `mongodb+srv://${secrets.userName}:${encodeURIComponent(secrets.password)}@${secrets.hostname}`;
 
-const client = new MongoClient(url);
-const db = client.db('1337code');
+let db, userCollection, problemCollection, scoreCollection;
 
-const userCollection = db.collection("users")
-const problemCollection = db.collection("problems")
-const scoreCollection = db.collection("scores")
-
-(async function testConnection() {
-    await client.connect();
-    await db.command({ ping: 1 });
-})().catch((ex) => {
-    console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-    process.exit(1);
+let dbInitializationPromiseResolve;
+let dbInitializationPromise = new Promise(resolve => {
+    dbInitializationPromiseResolve = resolve;
 });
 
-async function insertProblems(problemsPath = "./problems.js") {
-    await insertIfNotExists(problemCollection, require(problemsPath))
-    console.log(await problemsCol.find().toArray())
+async function initializeDatabase() {
+    try {
+        const client = new MongoClient(url);
+        await client.connect();
+        console.log('Connected to database.');
+
+        db = client.db('1337code');
+        userCollection = db.collection("users");
+        problemCollection = db.collection("problems");
+        scoreCollection = db.collection("scores");
+
+        await db.command({ ping: 1 });
+
+        dbInitializationPromiseResolve();
+    } catch (ex) {
+        console.error(`Unable to connect to database with ${url} because ${ex.message}`);
+        process.exit(1);
+    }
 }
 
-async function insertIfNotExists(collection, documents) {
-    const insertableDocs = [];
+// Immediately invoke initializeDatabase but do not wait here, let the callers handle this.
+initializeDatabase();
+
+function ensureDatabaseInitialization() {
+    return dbInitializationPromise;
+}
+async function insertProblems(problemsPath = "./problems.js", replace = false) {
+    const problems = require(problemsPath);
+    await insertIfNotExists(problemCollection, problems, replace);
+    console.log(await problemCollection.find().toArray());
+}
+
+async function insertIfNotExists(collection, documents, replace = false) {
+    const operations = [];
 
     for (let doc of documents) {
-        const exists = await collection.countDocuments({ _id: doc._id });
-        if (exists === 0) {
-            insertableDocs.push(doc);
+        if (replace) {
+            operations.push({
+                updateOne: {
+                    filter: { _id: doc._id },
+                    update: { $set: doc },
+                    upsert: true
+                }
+            });
+        } else {
+            const exists = await collection.countDocuments({ _id: doc._id });
+            if (exists === 0) {
+                operations.push({
+                    insertOne: {
+                        document: doc
+                    }
+                });
+            }
         }
     }
 
-    if (insertableDocs.length > 0) {
-        return collection.insertMany(insertableDocs, { ordered: false });
+    if (operations.length > 0) {
+        return collection.bulkWrite(operations, { ordered: false });
     } else {
-        return Promise.resolve('No new documents to insert');
+        return Promise.resolve('No operations to perform');
     }
 }
 
@@ -94,11 +127,13 @@ function idToName(document) {
 }
 
 module.exports = {
-  getUser,
-  getUserByAuth,
-  createUser,
-  getProblem,
-  getProblems,
-  addScore,
-  getHighScores,
+    ensureDatabaseInitialization,
+    getUser,
+    getUserByAuth,
+    createUser,
+    getProblem,
+    getProblems,
+    addScore,
+    getHighScores,
+    insertProblems,
 }

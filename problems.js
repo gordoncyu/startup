@@ -3,6 +3,7 @@ const dedent = require('dedent');
 const problems = [
     {
         _id: "Multiples of Three or Five",
+        difficulty: "easy",
         description: dedent`
             Calculate the sum of multiples of $3$ or $5$ that are less than a given integer $n$. For every number provided, find all the natural numbers below it which are multiples of either $3$ or $5$ and sum them up. Repeat this process for each input value and return a corresponding list of sums.
 
@@ -52,3 +53,12 @@ const problems = [
 ]
 
 module.exports = problems
+
+async function insertAndReplace() {
+    const DB = require("./database.js")
+    await DB.ensureDatabaseInitialization()
+    await DB.insertProblems("./problems.js", true)
+    console.log("Problems inserted")
+}
+
+insertAndReplace()
