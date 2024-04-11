@@ -1,18 +1,19 @@
-let pyodide
-const textarea = document.getElementById('editor')
 let editor
 
-async function main() {
-    pyodide = await loadPyodide();
+export async function main() {
+    if (window.pyodide === undefined) {
+        window.pyodide = await loadPyodide();
+    }
 
+    let textarea = document.getElementById('editor')
     editor = CodeMirror.fromTextArea(textarea, {
         mode: 'text/x-python',
         lineNumbers: true,
         theme: 'ayu-dark'
     });
-};
 
-main();
+    document.querySelector("#editorLoading").classList.add("hidden")
+};
 
 class OutputHandler {
     constructor() {
@@ -48,13 +49,13 @@ let outputHandler
 
 export async function testSolution() {
     const solution = editor.getValue()
-    pyodide.setStdin(new StdinHandler(input))
+    window.pyodide.setStdin(new StdinHandler(input))
 
     outputHandler = new OutputHandler()
-    pyodide.setStdout(outputHandler)
+    window.pyodide.setStdout(outputHandler)
 
     const startTime = performance.now()
-    pyodide.runPython(solution)
+    window.pyodide.runPython(solution)
     const timeTaken = performance.now() - startTime
 
     if (outputHandler.getOutput().trim() !== expectedOutput.trim()) {

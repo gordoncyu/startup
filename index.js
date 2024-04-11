@@ -65,6 +65,9 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
 window.problemName = "${escapeJavaScriptString(problem.name)}"
 window.input = \`${escapeJavaScriptString(problem.input)}\`
 window.expectedOutput = \`${escapeJavaScriptString(problem.output)}\`
+setTimeout(() => {
+    window.main()
+}, 100)
     `
     res.render('partials/problem', { problem: problem, javascript:javascript })
 });

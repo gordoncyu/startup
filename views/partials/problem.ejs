@@ -24,7 +24,9 @@
             </p>
 
             <pre>
+                <p id="editorLoading">Code editor is loading...</p>
                 <textarea id="editor" class="hidden">
+# Input comes through stdin, output results through stdout
 import sys
 
 </textarea>
@@ -39,8 +41,9 @@ import sys
         <button id="qrcodeFetch" hx-swap="afterend" class="text-blue-500 hidden">Share your solution with a QR code</button>
     </div>
     <script type="module">
-        import { testSolution } from "/partials/problem.js";
+        import { testSolution, main } from "/partials/problem.js";
         window.testSolution = testSolution
+        window.main = main
     </script>
     <% if (locals.javascript) { %>
         <script>
