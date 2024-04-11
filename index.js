@@ -15,6 +15,7 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 function requireHtmx(req, res, next) {
     if (req.get('HX-Request') !== 'true') {
