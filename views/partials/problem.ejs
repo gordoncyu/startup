@@ -38,7 +38,10 @@ import sys
     <div class="m-2">
         <button id="qrcodeFetch" hx-swap="afterend" class="text-blue-500 hidden">Share your solution with a QR code</button>
     </div>
-    <script src="partials/problem.js"></script>
+    <script type="module">
+        import { testSolution } from "/partials/problem.js";
+        window.testSolution = testSolution
+    </script>
     <% if (locals.javascript) { %>
         <script>
             <%- javascript %>
