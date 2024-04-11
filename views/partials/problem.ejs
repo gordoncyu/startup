@@ -13,7 +13,7 @@
             class="button bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" />
         </form>
         <h1 class="text-3xl font-bold"><%= problem.name %></h1>
-        <%= problem.description %>
+        <%- problem.description %>
         <div class="mt-10">
             <p class="flex items-center">
             Forgive us for our web code editor is lacking. We recommend you write your code in &nbsp
@@ -26,7 +26,8 @@
             <pre>
                 <textarea id="editor" class="hidden">
 import sys
-                </textarea>
+
+</textarea>
             </pre>
         </div>
         <div>

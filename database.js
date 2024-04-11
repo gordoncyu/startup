@@ -75,32 +75,33 @@ async function insertIfNotExists(collection, documents, replace = false) {
     }
 }
 
-function getUser(username) {
-    const user = userCollection.findOne({ _id: username })
+async function getUser(username) {
+    const user = await userCollection.findOne({ _id: username })
     return idToName(user)
 }
 
-function getUserByAuth(auth) {
-    const user = userCollection.findOne({ auth: auth })
+async function getUserByAuth(auth) {
+    const user = await userCollection.findOne({ auth: auth })
     return idToName(user)
 }
 
 async function createUser(username, password) {
-    const user = await userCollection.insertOne({
+    const auth = uuid.v4()
+    userCollection.insertOne({
         _id: username,
-        password: await bcrypt.hash(password, 31),
-        auth: uuid.v4(),
+        password: await bcrypt.hash(password, 12),
+        auth: auth,
     })
-    return idToName(user)
+    return auth
 }
 
-function getProblem(id) {
-    const problem = userCollection.findOne({ _id: id })
+async function getProblem(id) {
+    const problem = await problemCollection.findOne({ _id: id })
     return idToName(problem)
 }
 
 async function getProblems(getDescription = false) {
-    let problems = await problemCollection.find()
+    let problems = await problemCollection.find().toArray()
     if (getDescription == false) {
         problems = problems.map(({description, ...rest}) => rest);
     }
@@ -129,7 +130,8 @@ function idToName(document) {
     if (document === null) {
         return null
     };
-    return {_id:username, ...rest} = document
+    const { _id: name, ...rest } = document;
+    return { name, ...rest };
 }
 
 module.exports = {

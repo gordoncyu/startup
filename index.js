@@ -23,12 +23,22 @@ function requireHtmx(req, res, next) {
 }
 
 app.use('/comp', requireHtmx);
+app.use((req, res, next) => {
+    console.log(req.url)
+    next()
+})
     
-app.get('/index.html', async (req, res, next) => {
+app.get('/', async (req, res, next) => {
     const auth = req.cookies?.auth
-    const username = auth == undefined ? null : await DB.getUserByAuth(auth).username
-    const problems = DB.getProblems()
+    const username = auth == undefined ? null : (await DB.getUserByAuth(auth)).name
+    console.log(username)
+    const problems = await DB.getProblems()
     res.render('spa', { contentPartial: "problems", contentParams: {problems: problems}, username: username })
+});
+
+app.get('/comp/problems', async (req, res, next) => {
+    const problems = await DB.getProblems()
+    res.render("partials/problems", {problems: problems})
 });
 
 app.get('/problems/:problemName', async (req, res, next) => {
@@ -39,7 +49,7 @@ app.get('/problems/:problemName', async (req, res, next) => {
         res.render('spa', { contentPartial: "404", username: username })
         return
     }
-    problem.description = marked(problem.description)
+    problem.description = marked.marked(problem.description)
     res.render('spa', { contentPartial: "problem", contentParams: {problem: problem}, username: username })
 });
 
@@ -49,8 +59,8 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
         res.render('404')
         return
     }
-    problem.description = marked(problem.description)
-    res.render('problem', { problem: problem })
+    problem.description = marked.marked(problem.description)
+    res.render('partials/problem', { problem: problem })
 });
 
 app.get('/problems/:problemName/leaderboard', async (req, res, next) => {
@@ -76,30 +86,37 @@ app.get('/comp/problems/:problemName/leaderboard', async (req, res, next) => {
         return
     }
     const scores = await DB.getHighScores(req.params.problemName)
-    res.render('leaderboard', {problemName: req.params.problemName, scores: scores})
+    res.render('partials/leaderboard', {problemName: req.params.problemName, scores: scores})
 });
 
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {
-        const user = DB.createUser(username, password)
-        setAuthCookie(user.auth)
+        console.log("creating user")
+        const auth = await DB.createUser(username, password)
+        console.log("created user")
+        console.log("setting cookie")
+        console.log(auth)
+        setAuthCookie(res, auth)
+        console.log("rendering")
         res.render('partials/userDisplay', { username: username })
     } catch (error) {
         let errorMessage
         if (error.code === 11000) {
             errorMessage = "Username is already taken!"
-        } else {
-            errorMessage = "Unknown error occurred"
+            res.render('partials/login', { error: errorMessage })
+            return
         }
+        errorMessage = "Unknown error occurred"
         res.render('partials/login', { error: errorMessage })
+        throw error
     }
 })
 
 app.post('/comp/login', async (req, res, next) => {
     const { username, password } = req.body;
-    const user = DB.getUser(username)
-    if (user === null  || user.password !== bcrypt.hash(password, 31)) {
+    const user = await DB.getUser(username)
+    if (user === null  || user.password !== bcrypt.hash(password, 12)) {
         res.render('partials/login', { error: "Username or password incorrect."})
         return
     }
@@ -111,7 +128,7 @@ app.post('/comp/login', async (req, res, next) => {
 function setAuthCookie(res, auth) {
     res.cookie('auth', auth, {
         secure: true,
-        httpOnly: true,
+        httpOnly: false,
         sameSite: 'strict',
     });
 }

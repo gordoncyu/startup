@@ -9,15 +9,20 @@
 
 <body class="bg-black text-white font-sans min-h-screen">
     <div class="container mx-auto px-4">
-        <% include partials/header, {username: username} %>
+        <%- include('partials/header', {username: username}) %>
         <% if (locals.contentParams == undefined) { %>
-            <% include partials/${contentPartial} %>
+            <%- include(`partials/${contentPartial}`) %>
         <% } else { %>
-            <% include partials/${contentPartial}, {...contentParams} %>
+            <%- include(`partials/${contentPartial}`, {...contentParams}) %>
         <% } %>
-        <% include partials/footer %>
+        <%- include('partials/footer') %>
     </div>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/python/python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/ayu-dark.min.css">
     <script src="https://unpkg.com/htmx.org@1.9.11"></script>
 </body>
 
