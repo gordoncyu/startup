@@ -1,4 +1,10 @@
-<p style="display: flex; justify-content: space-between">Username: <%= username %>&nbsp;&nbsp;
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png"
-        alt="NeoVim" class="w-5 h-5 inline-block align-middle">
-</p>
+<div class="flex space-x-4" id="userDisplay">
+    <p style="display: flex; justify-content: space-between">Username: <%= username %>&nbsp;&nbsp;
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png"
+            alt="NeoVim" class="w-5 h-5 inline-block align-middle">
+    </p>
+    <button hx-get="/comp/logout" hx-target="#userDisplay" hx-swap="outerHTML" class="rounded bg-gray-950 m-2">logout</button>
+    <script>
+       localStorage.setItem("username", "<%= username %>")
+    </script>
+</div>

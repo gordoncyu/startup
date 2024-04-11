@@ -125,6 +125,11 @@ app.post('/comp/login', async (req, res, next) => {
     res.render('partials/userDisplay', { username: username })
 })
 
+app.get('/comp/logout', async (req, res, next) => {
+    res.clearCookie("auth")
+    res.render('partials/login')
+})
+
 function setAuthCookie(res, auth) {
     res.cookie('auth', auth, {
         secure: true,

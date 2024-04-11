@@ -8,4 +8,8 @@
     <% if (locals.error != undefined) { %>
         <p class="text-red"> <%= error %> </p>
     <% } %>
+
+    <script>
+       localStorage.removeItem("username")
+    </script>
 </form>
