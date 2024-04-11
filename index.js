@@ -89,6 +89,11 @@ app.get('/comp/problems/:problemName/leaderboard', async (req, res, next) => {
     res.render('partials/leaderboard', {problemName: req.params.problemName, scores: scores})
 });
 
+app.post('/problems/:problemName/solution', async (req, res, next) => {
+    const solutionId = DB.addScore(req.params.problemName, req.body.username, req.body.solution, req.body.loc, req.body.time)
+    res.write(JSON.stringify({solutionId: solutionId}))
+});
+
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {

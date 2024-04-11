@@ -32,7 +32,6 @@ async function initializeDatabase() {
     }
 }
 
-// Immediately invoke initializeDatabase but do not wait here, let the callers handle this.
 initializeDatabase();
 
 function ensureDatabaseInitialization() {
@@ -109,21 +108,32 @@ async function getProblems(getDescription = false) {
 }
 
 
-function addScore(problemName, username, loc, time) {
+function addScore(problemName, username, solution, loc, time) {
+    const solutionId = uuid.v4()
     score = {
+        _id: solutionId,
         problemName: problemName,
         username: username,
+        solution: solution,
         loc: loc,
         time: time,
     }
     scoreCollection.insertOne(score);
+    return solutionId
 }
 
-function getHighScores(problemName) {
-    return scoreCollection.find({ "problemName": problemName }, {
+function getSolution(solutionId) {
+    return scoreCollection.findOne({ _id: solutionId })
+}
+
+async function getHighScores(problemName) {
+    return (await scoreCollection.find({ "problemName": problemName }, {
         sort: { 'time': -1 },
         limit: 100
-    }).toArray();
+    }).toArray()).map((score) => {
+        const { solution, ...rest } = score;
+        return rest
+    });
 }
 
 function idToName(document) {
@@ -142,6 +152,7 @@ module.exports = {
     getProblem,
     getProblems,
     addScore,
+    getSolution,
     getHighScores,
     insertProblems,
 }
