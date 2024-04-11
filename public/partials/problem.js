@@ -46,7 +46,7 @@ const resultEl = document.querySelector("#testResult")
 const qrcodeFetchEl = document.querySelector("#qrcodeFetch")
 let outputHandler
 
-async function testSolution() {
+export async function testSolution() {
     const solution = editor.getValue()
     pyodide.setStdin(new StdinHandler(input))
 
@@ -65,7 +65,7 @@ async function testSolution() {
     }
 
     let loc = 0
-    for (line of solution.split("\n")) {
+    for (let line of solution.split("\n")) {
         if (line.trim() == "") {
             continue
         }

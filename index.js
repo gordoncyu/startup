@@ -62,9 +62,9 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
     }
     problem.description = marked.marked(problem.description)
     const javascript = `
-let problemName = "${escapeJavaScriptString(problem.name)}"
-let input = \`${escapeJavaScriptString(problem.input)}\`
-let expectedOutput = \`${escapeJavaScriptString(problem.output)}\`
+window.problemName = "${escapeJavaScriptString(problem.name)}"
+window.input = \`${escapeJavaScriptString(problem.input)}\`
+window.expectedOutput = \`${escapeJavaScriptString(problem.output)}\`
     `
     res.render('partials/problem', { problem: problem, javascript:javascript })
 });
