@@ -116,12 +116,12 @@ app.post('/comp/register', async (req, res, next) => {
 app.post('/comp/login', async (req, res, next) => {
     const { username, password } = req.body;
     const user = await DB.getUser(username)
-    if (user === null  || user.password !== bcrypt.hash(password, 12)) {
+    if (user === null  || !(await bcrypt.compare(password, user.password))) {
         res.render('partials/login', { error: "Username or password incorrect."})
         return
     }
 
-    setAuthCookie(user.auth)
+    setAuthCookie(res, user.auth)
     res.render('partials/userDisplay', { username: username })
 })
 
