@@ -31,24 +31,17 @@ import sys
             </pre>
         </div>
         <div>
-            <button id="submitCode">Submit</button>
+            <button onclick="testSolution()">Submit</button>
         </div>
+        <div id="testResult"></div>
     </div>
     <div class="m-2">
-        <button class="text-blue-500">Share your solution with a QR code</button>
+        <button id="qrcodeFetch" hx-swap="afterend" class="text-blue-500 hidden">Share your solution with a QR code</button>
     </div>
-    <script>
-        async function main() {
-            let pyodide = await loadPyodide();
-
-            const textarea = document.getElementById('editor')
-            const editor = CodeMirror.fromTextArea(textarea, {
-                    mode: 'text/x-python',
-                    lineNumbers: true,
-                    theme: 'ayu-dark'
-                });
-            textarea.classList.remove("hidden")
-        };
-        main();
-    </script>
+    <script src="partials/problem.js"></script>
+    <% if (locals.javascript) { %>
+        <script>
+            <%- javascript %>
+        </script>
+    <% } %>
 </main>

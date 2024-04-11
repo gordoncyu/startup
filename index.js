@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const app = express();
 const marked = require('marked');
+const dedent = require('dedent')
 const markedRenderer = require('./markedRenderer.js')
 marked.setOptions({markedRenderer})
 
@@ -31,7 +32,6 @@ app.use((req, res, next) => {
 app.get('/', async (req, res, next) => {
     const auth = req.cookies?.auth
     const username = auth == undefined ? null : (await DB.getUserByAuth(auth)).name
-    console.log(username)
     const problems = await DB.getProblems()
     res.render('spa', { contentPartial: "problems", contentParams: {problems: problems}, username: username })
 });
@@ -60,7 +60,12 @@ app.get('/comp/problems/:problemName', async (req, res, next) => {
         return
     }
     problem.description = marked.marked(problem.description)
-    res.render('partials/problem', { problem: problem })
+    const javascript = `
+let problemName = "${escapeJavaScriptString(problem.name)}"
+let input = \`${escapeJavaScriptString(problem.input)}\`
+let expectedOutput = \`${escapeJavaScriptString(problem.output)}\`
+    `
+    res.render('partials/problem', { problem: problem, javascript:javascript })
 });
 
 app.get('/problems/:problemName/leaderboard', async (req, res, next) => {
@@ -91,19 +96,14 @@ app.get('/comp/problems/:problemName/leaderboard', async (req, res, next) => {
 
 app.post('/problems/:problemName/solution', async (req, res, next) => {
     const solutionId = DB.addScore(req.params.problemName, req.body.username, req.body.solution, req.body.loc, req.body.time)
-    res.write(JSON.stringify({solutionId: solutionId}))
+    res.json({solutionId: solutionId})
 });
 
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {
-        console.log("creating user")
         const auth = await DB.createUser(username, password)
-        console.log("created user")
-        console.log("setting cookie")
-        console.log(auth)
         setAuthCookie(res, auth)
-        console.log("rendering")
         res.render('partials/userDisplay', { username: username })
     } catch (error) {
         let errorMessage
@@ -141,4 +141,10 @@ function setAuthCookie(res, auth) {
         httpOnly: false,
         sameSite: 'strict',
     });
+}
+
+function escapeJavaScriptString(str) {
+    return str.replace(/\\/g, '\\\\')
+              .replace(/"/g, '\\"')
+              .replace(/`/g, '\\`');
 }
