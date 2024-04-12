@@ -152,6 +152,18 @@ app.get('/comp/getqr/:solutionId', (req, res, next) => {
     res.end()
 })
 
+app.get('/solutions/:solutionId', async (req, res, next) => {
+    const auth = req.cookies?.auth
+    const username = auth == undefined ? null : (await DB.getUserByAuth(auth)).name
+    const solution = await DB.getSolution(req.params.solutionId)
+    if (solution == null) {
+        res.render('spa', { contentPartial: "404", username: username })
+        return
+    }
+
+    res.render('spa', { contentPartial: "solution", contentParams: {solution: solution}, username: username })
+})
+
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {

@@ -1,0 +1,20 @@
+<main class="border-b border-gray-700">
+    <h1 class="text-2xl font-bold mb-4"><%= solution.username %>'s Solution for '<%= solution.problemName %></h1>
+    <pre>
+        <code class="python-html"><%= solution.solution %></code>
+    </pre>
+    <div class="content-box bg-[#1e1e1e] p-4 rounded-md">
+        <div class="flex justify-between mb-4">
+            <div class="font-bold text-xl">time</div>
+            <div class="font-bold text-xl">lines of code</div>
+        </div>
+        <div class="flex justify-between m-4">
+            <p><%= solution.time %></p>
+            <p><%= solution.loc %></p>
+        </div>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/ros-pine.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</main>
