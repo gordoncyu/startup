@@ -37,9 +37,7 @@ import sys
         </div>
         <div id="testResult"></div>
     </div>
-    <div class="m-2">
-        <button id="qrcodeFetch" hx-swap="afterend" class="text-blue-500 hidden">Share your solution with a QR code</button>
-    </div>
+    <div id="qrcodeFetchDiv" class="m-2"></div>
     <script type="module">
         import { testSolution, main } from "/partials/problem.js";
         window.testSolution = testSolution

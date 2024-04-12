@@ -103,6 +103,12 @@ app.post('/problems/:problemName/solution', async (req, res, next) => {
     res.json({solutionId: solutionId})
 });
 
+app.get('/comp/getqr/:solutionId', (req, res, next) => {
+    res.type('text/html')
+    res.write(`<img src="https://qrtag.net/api/qr.svg?url=startup.1337code.click/solutions/${ encodeURIComponent(req.params.solutionId) }" alt="qrtag">`)
+    res.end()
+})
+
 app.post('/comp/register', async (req, res, next) => {
     const { username, password } = req.body;
     try {

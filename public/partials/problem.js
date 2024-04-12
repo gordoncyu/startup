@@ -1,9 +1,15 @@
 let editor
+let resultEl
+let qrcodeFetchDiv
+const htmx = window.htmx
 
 export async function main() {
     if (window.pyodide === undefined) {
         window.pyodide = await loadPyodide();
     }
+
+    resultEl = document.querySelector("#testResult")
+    qrcodeFetchDiv = document.querySelector("#qrcodeFetchDiv")
 
     let textarea = document.getElementById('editor')
     editor = CodeMirror.fromTextArea(textarea, {
@@ -43,15 +49,11 @@ class StdinHandler {
     }
 }
 
-const resultEl = document.querySelector("#testResult")
-const qrcodeFetchEl = document.querySelector("#qrcodeFetch")
-let outputHandler
-
 export async function testSolution() {
     const solution = editor.getValue()
     window.pyodide.setStdin(new StdinHandler(input))
 
-    outputHandler = new OutputHandler()
+    let outputHandler = new OutputHandler()
     window.pyodide.setStdout(outputHandler)
 
     const startTime = performance.now()
@@ -107,6 +109,13 @@ export async function testSolution() {
     successMessage += " Your score and solution have been saved to the server. You can now share it with a qr code."
     resultEl.textContent = successMessage
 
-    qrcodeFetchEl.setAttribute("hx-get", "/comp/getqr/" + encodeURIComponent(solutionId))
-    qrcodeFetchEl.classList.remove("hidden")
+    if (qrcodeFetchDiv.firstElementChild) {
+        qrcodeFetchDiv.removeChild(qrcodeFetchDiv.firstElementChild)
+    }
+    qrcodeFetchDiv.insertAdjacentHTML('afterbegin', `
+        <form hx-get="/comp/getqr/${ encodeURIComponent(solutionId) }" hx-swap="outerHTML" hx-target="this">
+            <input type="submit" id="qrcodeFetch" class="text-blue-500" value="Share your solution with a QR code">
+        </form>
+        `)
+    htmx.process(qrcodeFetchDiv)
 }
