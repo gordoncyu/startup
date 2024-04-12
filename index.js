@@ -1,4 +1,6 @@
 const express = require('express');
+const http = require('http')
+const WebSocket = require('ws');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const app = express();
@@ -9,13 +11,54 @@ marked.setOptions({markedRenderer})
 
 const DB = require('./database.js')
 
-app.listen(4000);
 app.use(express.static('public'))
 app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const server = http.createServer(app)
+const wsr = new WebSocket.Server({ server, path: "/ws/ratings" });
+
+const socksInProblem = new Map()
+const socksProblem = new Map()
+wsr.on('connection', (ws) => {
+    console.log('A new client connected!');
+
+    ws.on('message', async (message) => {
+        console.log('received: %s', message);
+        const data = JSON.parse(message);
+
+        if (data.type === undefined) {
+            if (!socksInProblem.has(data.problemName)) {
+                socksInProblem.set(data.problemName, new Set())
+            }
+            socksInProblem.get(data.problemName).add(ws)
+            socksProblem.set(ws, data.problemName)
+            return
+        }
+
+        const isLike = data.type == 'like'
+        const newCount = await DB.rateProblem(data.problemName, isLike)
+
+        for (wscon of socksInProblem.get(data.problemName)) {
+            wscon.send(`
+                <span id="${isLike ? 'like' : 'dislike'}Counter">${newCount}</span>
+                `)
+        }
+    });
+
+    ws.on('close', () => {
+        console.log('Connection closed');
+        socksInProblem.get(socksProblem.get(ws)).delete(ws)
+        socksProblem.delete(ws)
+    });
+})
+
+server.listen(4000, () => {
+    console.log('Server is running on http://localhost:4000');
+});
 
 function requireHtmx(req, res, next) {
     if (req.get('HX-Request') !== 'true') {

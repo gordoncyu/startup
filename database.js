@@ -37,8 +37,10 @@ initializeDatabase();
 function ensureDatabaseInitialization() {
     return dbInitializationPromise;
 }
+
 async function insertProblems(problemsPath = "./problems.js", replace = false) {
-    const problems = require(problemsPath);
+    let problems = require(problemsPath);
+    problems = problems.map((problem) => {return {likes: 0, dislikes: 0, ...problem}})
     await insertIfNotExists(problemCollection, problems, replace);
     console.log(await problemCollection.find().toArray());
 }
@@ -72,6 +74,12 @@ async function insertIfNotExists(collection, documents, replace = false) {
     } else {
         return Promise.resolve('No operations to perform');
     }
+}
+
+async function rateProblem(problemName, like) {
+    const likeVal = like ? "likes" : "dislikes"
+    const newProblem = await problemCollection.findOneAndUpdate({ _id: problemName }, {$inc: { [likeVal] : 1 }}, {returnDocument: 'after'})
+    return newProblem[likeVal]
 }
 
 async function getUser(username) {
@@ -146,6 +154,7 @@ function idToName(document) {
 
 module.exports = {
     ensureDatabaseInitialization,
+    rateProblem,
     getUser,
     getUserByAuth,
     createUser,

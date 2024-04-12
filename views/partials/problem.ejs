@@ -1,12 +1,23 @@
 <main class="border-b border-gray-700">
     <div class="flex flex-col p-8">
-        <div class="flex items-center space-x-2 mb-4">
+        <div class="flex items-center space-x-2 mb-4" hx-ext="ws" ws-connect="/ws/ratings">
             <span
-                class="inline-block px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full">Easy</span>
-            <img src="images/thumbs-up.png" width="16pt">
-            <span>0</span>
-            <img src="images/thumbs-down.png" width="16pt">
-            <span>0</span>
+                class="inline-block px-3 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full"><%= problem.difficulty %></span>
+            <form>
+                <input ws-send hx-trigger="load" type="text" name="problemName" value="<%= problem.name %>" class="hidden"/>
+            </form>
+            <form>
+                <img src="images/thumbs-up.png" width="16pt" hx-trigger="click" ws-send>
+                <input type="text" name="problemName" value="<%= problem.name %>" class="hidden"/>
+                <input type="text" name="type" value="like" class="hidden"/>
+            </form>
+            <span id="likeCounter"><%= problem.likes %></span>
+            <form>
+                <img src="images/thumbs-down.png" width="16pt" hx-trigger="click" ws-send>
+                <input type="text" name="problemName" value="<%= problem.name %>" class="hidden"/>
+                <input type="text" name="type" value="dislike" class="hidden"/>
+            </form>
+            <span id="dislikeCounter"><%= problem.dislikes %></span>
         </div>
         <form hx-get="/comp/problems/<%= encodeURIComponent(problem.name) %>/leaderboard" hx-target="main" hx-swap="outerHTML">
             <input type="submit" value="Leaderboard"
@@ -20,7 +31,7 @@
             <a href="https://neovim.io/" class="inline-flex items-center text-blue-500">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Neovim-mark.svg/1200px-Neovim-mark.svg.png" alt="NeoVim" class="w-3.5 h-3.5 inline-block align-middle">
                 eoVim
-            </a>
+            </a>.
             </p>
 
             <pre>
