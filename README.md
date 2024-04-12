@@ -58,3 +58,12 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
 - Text content; mostly the same as before; styled with darktheme
 - Same images just layed out better with css
 
+# Startup JavaScript Stuff done
+
+- Made the login work at the top right of the page. After login it shows your username and a logout button.
+- Made ways for the login information to route to the database
+- Moved problems and associated information to the database
+- Added websocket support for thumbsup/thumbs down live updating
+- Added python editor with codemirror javascript
+- Added javascript to evaluate submitted code for correctness
+
