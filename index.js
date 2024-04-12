@@ -51,8 +51,16 @@ wsr.on('connection', (ws) => {
 
     ws.on('close', () => {
         console.log('Connection closed');
-        socksInProblem.get(socksProblem.get(ws)).delete(ws)
-        socksProblem.delete(ws)
+        try {
+            socksInProblem.get(socksProblem.get(ws)).delete(ws)
+        } catch (err) {
+            console.log(err)
+        }
+        try {
+            socksProblem.delete(ws)
+        } catch (err) {
+            console.log(err)
+        }
     });
 })
 
