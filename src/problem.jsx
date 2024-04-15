@@ -23,7 +23,6 @@ function Problem() {
                 setProblem(reqProb);
                 setLikes(reqProb.likes)
                 setDislikes(reqProb.dislikes)
-                console.log(reqProb);
             } else {
                 // TODO: problems bad res
             }
@@ -153,7 +152,7 @@ function Problem() {
         if (qrcodeFetchRef.current.firstElementChild) {
             qrcodeFetchRef.current.removeChild(qrcodeFetchRef.current.firstElementChild);
         }
-        console.log(solutionId)
+        console.log(`Solution id: ${solutionId}`)
         qrcodeFetchRef.current.insertAdjacentHTML('afterbegin', `
              <img src="https://qrtag.net/api/qr.svg?url=startup.1337code.click/solutions/${ encodeURIComponent(solutionId) }" alt="qrtag">
         `);

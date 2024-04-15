@@ -13,8 +13,6 @@ function App() {
     const [currentProblem, setCurrentProblem] = useState(null);
 
     useEffect(() => {
-        console.log(username)
-        console.log(typeof username)
         if (username == null) {
             localStorage.removeItem("username")
         } else {

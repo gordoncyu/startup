@@ -35,7 +35,6 @@ apiRouter.get('/problems', async (req, res, next) => {
 });
 
 apiRouter.get('/problems/:problemName', async (req, res, next) => {
-    console.log(req.params.problemName)
     let problem = await DB.getProblem(req.params.problemName)
     if (problem == null) {
         res.status(404)
@@ -43,7 +42,6 @@ apiRouter.get('/problems/:problemName', async (req, res, next) => {
     }
     problem.description = marked.marked(problem.description)
 
-    console.log(problem)
     res.json(problem)
 });
 
@@ -76,11 +74,8 @@ apiRouter.get('/solutions/:solutionId', async (req, res, next) => {
 
 apiRouter.post('/register', async (req, res, next) => {
     const { username, password } = req.body;
-    console.log(req.body)
     try {
-        console.log("Got here")
         const auth = await DB.createUser(username, password)
-        console.log("Got there")
         setAuthCookie(res, auth)
         res.status(200)
     } catch (error) {
@@ -97,22 +92,15 @@ apiRouter.post('/register', async (req, res, next) => {
 
 apiRouter.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
-    console.log(req.body)
-    console.log("Got here")
     const user = await DB.getUser(username)
-    console.log("Got there")
     if (user === null  || !(await bcrypt.compare(password, user.password))) {
-        console.log("got crupt")
         res.status(401)
-        console.log("got to end")
         res.end()
         return
     }
-    console.log("got crupt")
 
     setAuthCookie(res, user.auth)
     res.status(200)
-    console.log("got to end")
     res.end()
 })
 

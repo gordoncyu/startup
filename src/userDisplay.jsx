@@ -4,7 +4,6 @@ function UserDisplay({ username, onAuthChange }) {
     const handleLogout = async () => {
         const response = await fetch('/api/logout', { method: 'GET' });
         if (response.ok) {
-            console.log("ok")
             onAuthChange(null);
         }
     };
