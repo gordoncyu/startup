@@ -1,25 +1,23 @@
 let editor
 let resultEl
 let qrcodeFetchDiv
-const htmx = window.htmx
 
-export async function main() {
-    if (window.pyodide === undefined) {
-        window.pyodide = await loadPyodide();
-    }
+export async function main(editorRef, resultRef, qrcodeFetchRef) {
+  if (window.pyodide === undefined) {
+    window.pyodide = await loadPyodide();
+  }
 
-    resultEl = document.querySelector("#testResult")
-    qrcodeFetchDiv = document.querySelector("#qrcodeFetchDiv")
+  resultEl = resultRef;
+  qrcodeFetchDiv = qrcodeFetchRef;
 
-    let textarea = document.getElementById('editor')
-    editor = CodeMirror.fromTextArea(textarea, {
-        mode: 'text/x-python',
-        lineNumbers: true,
-        theme: 'ayu-dark'
-    });
+  editor = CodeMirror.fromTextArea(editorRef, {
+    mode: 'text/x-python',
+    lineNumbers: true,
+    theme: 'ayu-dark',
+  });
 
-    document.querySelector("#editorLoading").classList.add("hidden")
-};
+  document.querySelector('#editorLoading').classList.add('hidden');
+}
 
 class OutputHandler {
     constructor() {
@@ -49,7 +47,7 @@ class StdinHandler {
     }
 }
 
-export async function testSolution() {
+export async function testSolution(problemName, input, expectedOutput) {
     const solution = editor.getValue()
     window.pyodide.setStdin(new StdinHandler(input))
 
