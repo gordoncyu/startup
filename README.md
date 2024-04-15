@@ -74,3 +74,11 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
     - Implemented single-page application functionality using services
 - Frontend calls /comp service endpoints for scoring and leaderboard rankings, accesses third party endpoints through getqr
 - Backend provides /comp service endpoints
+
+# Startup Login Stuff done
+
+- new user auth: try username of above like 30 to speedrun registration/login; I used most of the ones under 30. Or use some other username, i guess
+- existing user auth: see above but press login not register
+- Added mongodb client and collections, stores problem information and leaderboard scores in mongodb
+- Added collections to store user authentication information, hashes and salts password information
+- Does not allow score and solution uploads without logging in
