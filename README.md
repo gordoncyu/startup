@@ -67,3 +67,10 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
 - Added python editor with codemirror javascript
 - Added javascript to evaluate submitted code for correctness
 
+# Startup Service Stuff done
+
+- I moved site rendering from static middleware to dynamic; I know this is against the specification, but because we are now using services I am able to render a single-page application so therefore I am not using static middleware for the frontend.
+- Http service created with nodejs and express:
+    - Implemented single-page application functionality using services
+- Frontend calls /comp service endpoints for scoring and leaderboard rankings, accesses third party endpoints through getqr
+- Backend provides /comp service endpoints
