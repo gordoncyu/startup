@@ -82,3 +82,10 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
 - Added mongodb client and collections, stores problem information and leaderboard scores in mongodb
 - Added collections to store user authentication information, hashes and salts password information
 - Does not allow score and solution uploads without logging in
+
+# Startup WebSocket Stuff done
+
+- Backend listens to /ws/ratings for like/dislike messages
+- Frontend sends json to /ws/ratings with a problemName field and a type (like/dislike) field
+- using const WebSocket = require('ws');
+- Problem respective like/dislike ratings and number displayed once you select a specific problem with a like/dislike image and number
