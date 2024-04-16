@@ -89,3 +89,14 @@ Pit your pythonistic code against others and cope and seethe as someone's godles
 - Frontend sends json to /ws/ratings with a problemName field and a type (like/dislike) field
 - using const WebSocket = require('ws');
 - Problem respective like/dislike ratings and number displayed once you select a specific problem with a like/dislike image and number
+
+# Start React Stuff done
+
+- Added vite stuff and scripts
+    - See package.json
+- Created App, Header, Login, UserDisplay, Problems, Problem, Leaderboard, Solution, and Footer functional React components found in /src/*.jsx
+- Included react router within app component, used react router useParams in child components to dynamically fetch specific problems and problem leaderboards
+- hooks:
+    - useState used in Leaderboard, Problems, Login, Solution, App, and Problem functional components
+    - useEffect used in Solution, Leaderboard, Problems, App, and Problem functional components
+    - useRef used in Problem functional component
